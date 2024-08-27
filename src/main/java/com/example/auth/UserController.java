@@ -1,15 +1,19 @@
 package com.example.auth;
 
+import com.example.auth.entity.CustomUserDetails;
 import com.example.auth.repo.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+
 
 @Slf4j
 @Controller
@@ -39,7 +43,13 @@ public class UserController {
             Authentication authentication
     ) {
         log.info(authentication.getName());
-        log.info(((User) authentication.getPrincipal()).getUsername());
+//        log.info(((User) authentication.getPrincipal()).getUsername());
+        if (authentication.getPrincipal() instanceof CustomUserDetails details) {
+            log.info(details.getEmail());
+            log.info(details.getPhone());
+        }
+//        CustomUserDetails details = (CustomUserDetails) authentication.getPrincipal();
+
         return "my-profile";
     }
 

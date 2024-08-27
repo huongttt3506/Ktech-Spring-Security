@@ -29,6 +29,8 @@ public class UserService implements UserDetailsService {
         user1.setUsername("user1");
         user1.setPassword(passwordEncoder
                 .encode("password"));
+        user1.setEmail("user1@gamail.com");
+        user1.setPhone("010-5647-4567");
         this.repository.save(user1);
     }
 

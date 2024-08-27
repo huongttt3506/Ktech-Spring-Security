@@ -1,6 +1,7 @@
 package com.example.auth.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,7 +15,9 @@ public class CustomUserDetails implements UserDetails {
     private Long id;
     private String username;
     private String password;
+    @Getter
     private String email;
+    @Getter
     private String phone;
 
     @Override
@@ -40,4 +43,5 @@ public class CustomUserDetails implements UserDetails {
         details.phone = entity.getPhone();
         return  details;
     }
+
 }
