@@ -14,6 +14,7 @@ import java.util.Enumeration;
 @Component
 public class LoggingInterceptor implements HandlerInterceptor {
     // 요청이 HandlerMethod(RequestMapping)에 도달하기 전에 실행
+    // Logic trước khi request đến controller
     @Override
     public boolean preHandle(
             // 요청을 담고있는 객체
@@ -34,7 +35,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
             String headerName = headerNames.nextElement();
             log.debug("{}: {}", headerName, request.getHeader(headerName));
         }
-        return true;
+        return true; // tiếp tục đến controller
     }
 
     // HandlerMethod(RequestMapping)이 처리가 되고 응답이 보내지기 전에 실행

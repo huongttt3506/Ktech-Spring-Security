@@ -1,5 +1,6 @@
 package com.example.auth.config;
 
+import com.example.auth.filters.AlwaysAuthenticatedFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.AuthorizationFilter;
 
 @Configuration
 public class WebSecurityConfig {
@@ -23,7 +25,7 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/no-auth", "/")
+                    auth.requestMatchers("/no-auth", "/", "/token/**")
                             .permitAll();
                     // 인증이 된 사용자만 허용하는 URL
                     auth.requestMatchers("/users/my-profile")
@@ -35,8 +37,6 @@ public class WebSecurityConfig {
 //                    auth.requestMatchers(HttpMethod.GET, "/articles")
 //                            .permitAll();
                     // /articles, /articles/1, /articles/1/update
-//                    auth.requestMatchers("/articles/home").permitAll();
-
                     auth.requestMatchers("/articles/**")
                             .authenticated();
 //                    auth.requestMatchers("/")
@@ -54,6 +54,11 @@ public class WebSecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/users/logout")
                         .logoutSuccessUrl("/users/login")
+                )
+
+                .addFilterBefore(
+                        new AlwaysAuthenticatedFilter(),
+                        AuthorizationFilter.class
                 )
         ;
 

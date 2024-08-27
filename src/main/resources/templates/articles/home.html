@@ -18,7 +18,7 @@
         th:each="article: ${articles}"
 >
     <h3>[[${article.id}]]. [[${article.title}]]</h3>
-    <p>Writer: [[${article.writer}]]</p>
+    <p>Writer: [[${article.writer.username}]]</p>
     <a th:href="@{/articles/{id} (id=${article.id})}">Read</a>
 </div>
 </body>
